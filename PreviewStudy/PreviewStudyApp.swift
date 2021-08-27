@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct PreviewStudyApp: App {
     // 正常程序运行会设置成PersistenceController.shared.container
-    var container = PersistenceController.shared.previewInCatch
+    var container = PersistenceController.shared.container
 
     var body: some Scene {
         WindowGroup {
