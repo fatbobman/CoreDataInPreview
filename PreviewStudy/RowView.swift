@@ -26,12 +26,14 @@ private let itemFormatter: DateFormatter = {
 
 struct RowView_Previews: PreviewProvider {
     static var previews: some View {
-        RowView(item: PersistenceController.shared.samepleItem)
+        RowView(item: PersistenceController.shared.sampleItem)
+            
+        RowView(item: PersistenceController.itemByEntityDescription)
     }
 }
 
 extension PersistenceController {
-    var samepleItem: Item {
+    var sampleItem: Item {
         let context = Self.shared.previewInMemory.viewContext
         let item = Item(context: context)
         // 调整数据，可以直接在预览中看到变化

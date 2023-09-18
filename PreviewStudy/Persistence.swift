@@ -16,7 +16,7 @@ class PersistenceController {
     init() {}
 
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: modelName,managedObjectModel: Self.model())
+        let container = NSPersistentContainer(name: modelName, managedObjectModel: Self.model())
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -26,7 +26,7 @@ class PersistenceController {
     }()
 
     lazy var previewInMemory: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: modelName,managedObjectModel: Self.model())
+        let container = NSPersistentContainer(name: modelName, managedObjectModel: Self.model())
         container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         container.loadPersistentStores(completionHandler: { _, error in
 
@@ -35,7 +35,7 @@ class PersistenceController {
             }
         })
         let viewContext = container.viewContext
-        for _ in 0..<10 {
+        for _ in 0 ..< 10 {
             let newItem = Item(context: viewContext)
             newItem.timestamp = Date()
         }
@@ -49,7 +49,7 @@ class PersistenceController {
     }()
 
     lazy var previewInBundle: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: modelName,managedObjectModel: Self.model())
+        let container = NSPersistentContainer(name: modelName, managedObjectModel: Self.model())
         guard let url = Bundle.main.url(forResource: "PreviewStudy", withExtension: "sqlite") else {
             fatalError("无法从Bundle中获取数据库文件")
         }
@@ -63,7 +63,7 @@ class PersistenceController {
     }()
 
     lazy var previewInCatch: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: modelName,managedObjectModel: Self.model())
+        let container = NSPersistentContainer(name: modelName, managedObjectModel: Self.model())
         let fm = FileManager.default
         let DBName = "PreviewStudy"
 
@@ -146,4 +146,15 @@ extension PersistenceController {
         }
         return model
     }
+}
+
+extension PersistenceController {
+    static let itemByEntityDescription: Item = {
+        guard let entityDescription = model().entitiesByName["Item"] else {
+            fatalError("abc")
+        }
+        let item = Item(entity: entityDescription, insertInto: nil)
+        item.timestamp = Date.now
+        return item
+    }()
 }
